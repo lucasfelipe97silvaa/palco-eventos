@@ -9,7 +9,7 @@ export function Header(){
         </View>
         <View className='mr-12'>
             <Text className='text-gray-400 font-medium '>
-                    Aqui sera o input de Pesquisa
+                    Aqui sera o input de Pesquisas
             </Text>
         </View>
         <View >
