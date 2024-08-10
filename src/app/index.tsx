@@ -1,12 +1,10 @@
 import {View, Text} from 'react-native'
+import { Header } from '../components/header'
 
 
 export default function Home(){
     return(
-        <View>
-            <Text className='text-black font-medium '>
-                    Olá 
-            </Text>
-        </View>
+        <Header/>
+        
     )
-}
+} 
