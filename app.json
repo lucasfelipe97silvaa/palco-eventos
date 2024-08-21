@@ -10,15 +10,16 @@
     "splash": {
       "image": "",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#CECECE"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "backgroundColor": "#CECECE"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#CECECE"
       }
     },
     "web": {

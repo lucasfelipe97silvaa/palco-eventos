@@ -1,14 +1,22 @@
-import { View,Text, FlatList } from "react-native";
-import { Product } from '../components/product'
+import { View, Text, ScrollView,Image } from "react-native";
 
-export function BoxProduct(){
+type BoxProductProps = {
+    title: string
+
+}
+
+export function BoxProduct({title}: BoxProductProps){
     return(
         <View className="ml-4">
-            <View className=" w-96 h-48 bg-black mb-4">
-                <Text className="text-white font-extrabold text-base text-left">
-                    Produto
+            <View className=" w-96 h-48 bg-white mb-4">
+                <Text className="text-black font-extrabold text-base text-left">
+                   {title}
                 </Text>
-                <Product/>
+                <ScrollView horizontal> 
+                    <View className="m-3">
+                        <Image source={require('../assets/image/lolla.png')} className="w-32 h-32"/>
+                    </View>
+                </ScrollView>
             </View>
         </View>
     )
