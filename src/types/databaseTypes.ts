@@ -5,7 +5,7 @@ interface IIngresso {
 
 export interface IEvento {
     id: string;
-    categoria_id: number;
+    categoria: number;
     nome: string;
     data: Date;
     horaInicio: string;
