@@ -9,7 +9,7 @@ const Preload = () => {
 
     useEffect(() => {
         if (isAuth) {
-            return router.replace('/home');
+            return router.replace('/(tabs)/home');
         }
 
         if (!isAuth) {
