@@ -16,6 +16,7 @@ useEffect(() => {
     async function fetchShows(){
         const data  = await GetShows();
         setShows(data);
+        console.log(shows); // Para debugar, remove ou substitui com console.log(data);  //console.log(data);  // Para debugar, remove ou substitui com console.log(shows);  //console.log(shows);  // Para debugar, remove ou substitui com console.log(shows);  //console.log(shows);  // Para debugar, remove ou substitui com console.log(shows);  //console
     }
     fetchShows();
 },[]);
