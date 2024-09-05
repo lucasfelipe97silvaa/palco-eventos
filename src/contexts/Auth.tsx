@@ -13,7 +13,7 @@ interface IAuthContextProviderProps {
 const AuthContext = createContext({} as IAuthContext);
 
 const AuthContextProvider = ({ children }: IAuthContextProviderProps) => {
-    const [isAuth, setIsAuth] = useState<boolean>(true); // booleano que indica se usuário está logado
+    const [isAuth, setIsAuth] = useState<boolean>(false); // booleano que indica se usuário está logado
 
     const login = () => {
         // função para fazer login
