@@ -3,6 +3,7 @@ import { View, Text, Image } from "react-native"
 import { InputHeader } from "./inputComponents"
 
 import { Feather } from "@expo/vector-icons"
+import React from "react"
 
 
 // Header Component 
