@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         height: 50,
     },
     containerForm:{
-        gap: 20,
+        gap: 15,
         width: '75%'
     }
 })
