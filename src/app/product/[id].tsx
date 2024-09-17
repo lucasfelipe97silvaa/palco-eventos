@@ -3,6 +3,7 @@ import { View, Image, Text } from "react-native";
 import { useNavigation } from "expo-router";
 
 import { Quantity } from "../../components/quantity";
+import React from "react";
 
 export default function Eventos(){
     const navigation = useNavigation();
