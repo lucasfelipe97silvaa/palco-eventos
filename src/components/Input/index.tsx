@@ -1,15 +1,20 @@
-import { TextInput, TextInputProps } from "react-native";
+import { Text, TextInput, TextInputProps, View } from "react-native";
 import { styles } from "./styles";
 
 interface IInputProps extends TextInputProps {
+    error?: string 
 }
 
-const Input = ({ ...rest}: IInputProps) => {
+const Input = ({ error, ...rest}: IInputProps) => {
     return (
-        <TextInput
+        <View>
+            <TextInput
             {...rest}
             style={styles.container}
          />
+
+         {error && <Text style={{color:'red'}}>{error}</Text>}
+        </View>
     );
 }
 

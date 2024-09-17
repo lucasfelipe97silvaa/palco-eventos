@@ -1,13 +1,36 @@
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TextInput, View } from 'react-native';
 import { styles } from './styles';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
+import { z } from 'zod';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const schema = z.object({
+    nome: z.string({ message: 'Nome é obrigatório' }).min(3, 'Nome é obrigatório'),
+    email: z.string({ message: 'Email é obrigatório' }).email('Email inválido'),
+    cpf: z.string({ message: 'CPF é obrigatório' }).min(11, { message: 'CPF inválido' }),
+    telefone: z.string({ message: 'Telefone é obrigatório' }),
+    senha: z.string({message: 'Senha é obrigatória'}).min(6, { message: 'Senha deve ter no mínimo 6 caracteres' }),
+    confirmarSenha: z.string({message: 'Confirme sua senha'}).min(6, { message: 'Confirmação de senha é obrigatória' })
+}).refine(data => data.senha === data.confirmarSenha, {
+    message: 'Senhas devem coincidir',
+    path: ['confirmarSenha']
+});
+
+type TCadastroForm = z.infer<typeof schema>;
 
 const Cadastro = () => {
+    const { control, formState: { errors }, handleSubmit } = useForm<TCadastroForm>({
+        resolver: zodResolver(schema),
+        mode: 'onBlur'
+    });
 
-    const cadastrar = () => {
-        console.log('Cadastrar');
-    }
+    const onSubmit = (data: TCadastroForm) => {
+        console.log('Cadastrar', data);
+    };
+
+    console.log(errors)
 
     return (
         <View style={styles.container}>
@@ -19,36 +42,93 @@ const Cadastro = () => {
 
             <View style={styles.containerForm}>
 
-                <Input
-                    placeholder='Nome'
+                <Controller
+                    control={control}
+                    name='nome'
+                    render={({ field: { value, onChange } }) => (
+                        <Input  
+                            placeholder='Nome'
+                            onChangeText={onChange}
+                            value={value}
+                            error={errors.nome?.message}
+                        />
+                        
+                    )}
                 />
-                <Input
-                    placeholder='CPF'
+
+                <Controller
+                    control={control}
+                    name='cpf'
+                    render={({ field: { value, onChange } }) => (
+                        <Input
+                            placeholder='CPF'
+                            onChangeText={onChange}
+                            value={value}
+                            error={errors.cpf?.message}
+                        />
+                    )}
                 />
-                <Input
-                    placeholder='Telefone'
+
+                <Controller
+                    control={control}
+                    name='telefone'
+                    render={({ field: { value, onChange } }) => (
+                        <Input
+                            placeholder='Telefone'
+                            onChangeText={onChange}
+                            value={value}
+                            error={errors.telefone?.message}
+                        />
+                    )}
                 />
-                <Input
-                    placeholder='Email'
+
+                <Controller
+                    control={control}
+                    name='email'
+                    render={({ field: { value, onChange } }) => (
+                        <Input
+                            placeholder='Email'
+                            onChangeText={onChange}
+                            value={value}
+                            error={errors.email?.message}
+                        />
+                    )}
                 />
-                <Input
-                    placeholder='Senha'
+
+                <Controller
+                    control={control}
+                    name='senha'
+                    render={({ field: { value, onChange } }) => (
+                        <Input
+                            placeholder='Senha'
+                            onChangeText={onChange}
+                            value={value}
+                            error={errors.senha?.message}
+                        />
+                    )}
                 />
-                <Input
-                    placeholder='Confirmar Senha'
+
+                <Controller
+                    control={control}
+                    name='confirmarSenha'
+                    render={({ field: { value, onChange } }) => (
+                        <Input
+                            placeholder='Confirmar Senha'
+                            onChangeText={onChange}
+                            value={value}
+                            error={errors.confirmarSenha?.message}
+                        />
+                    )}
                 />
 
                 <Button
                     text='Cadastrar'
                     style={{ width: '100%' }}
-                    onPress={cadastrar}
+                    onPress={handleSubmit(onSubmit)}
                 />
             </View>
-
-
         </View>
-
-    )
-}
+    );
+};
 
 export default Cadastro;

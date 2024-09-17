@@ -9,9 +9,9 @@ interface IButton extends TouchableOpacityProps{
     style?: ViewStyle
 }
 
-const Button = ({text, style, variant = 'primary'}: IButton) => {
+const Button = ({text, style, variant = 'primary', ...rest}: IButton) => {
     return(
-        <TouchableOpacity style={[styles.container, style, { backgroundColor: variant === 'primary' ? theme.colors.primary : theme.colors.secondary}]}>
+        <TouchableOpacity {...rest} style={[styles.container, style, { backgroundColor: variant === 'primary' ? theme.colors.primary : theme.colors.secondary}]}>
             <Text style={styles.textColor}>{text}</Text>
         </TouchableOpacity>
     )

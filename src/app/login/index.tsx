@@ -4,9 +4,29 @@ import { StyleSheet } from 'react-native';
 import { router, useNavigation } from 'expo-router';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
+import { useEffect, useState } from 'react';
+import { z } from 'zod';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const schema = z.object({
+    email: z.string({ message: 'Campo obrigatório' }),
+    senha: z.string({ message: 'Campo obrigatório' })
+})
+
+type TLoginForm = z.infer<typeof schema>
 
 const Login = () => {
     const { login } = useAuth();
+
+    const { handleSubmit, formState: { errors }, control, getFieldState } = useForm<TLoginForm>({
+        resolver: zodResolver(schema)
+    })
+
+
+    const onSubmit = async (data: TLoginForm) => {
+        await login(data.email, data.senha);
+    }
 
     const navigateToCadastro = () => {
         router.navigate('/cadastro')
@@ -23,20 +43,47 @@ const Login = () => {
 
 
             <View style={styles.containerForm}>
-                <Input
-                    placeholder='Nome'
+                <View>
+                    <Controller
+                        control={control}
+                        name='email'
+                        render={({ field: { value, onChange } }) => {
+                            return (
+                                <Input
+                                    value={value}
+                                    onChangeText={onChange}
+                                    placeholder='Email'
+                                    error={errors.email?.message}
+                                />
+                            )
+                        }}
+                    />
+                </View>
+
+                <View>
+                    <Controller
+                        control={control}
+                        name='senha'
+                        render={({ field: { value, onChange } }) => {
+                            return (
+                                <Input
+                                    value={value}
+                                    onChangeText={onChange}
+                                    placeholder='Senha'
+                                    error={errors.senha?.message}
+                                    secureTextEntry
+                                />
+                            )
+                        }}
+                    />
+                </View>
+
+                <Button
+                    text='Login'
+                    style={{ width: '100%' }}
+                    onPress={handleSubmit(onSubmit)}
                 />
 
-                <Input
-                    placeholder='Email'
-                />
-
-                <Button 
-                text='Login'
-                style={{ width: '100%' }}
-                onPress={() => {}}
-                />
-                
             </View>
 
             <View>
@@ -75,7 +122,7 @@ const styles = StyleSheet.create({
     containerForm: {
         gap: 15,
         width: '75%',
-        
+
     }
 
     // cadastro:{

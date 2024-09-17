@@ -2,20 +2,27 @@ import { View } from 'react-native';
 import { useAuth } from '../../hooks/useAuth';
 import { useEffect } from 'react';
 import { router } from 'expo-router';
+import { usuarioService } from '../../services/supabase/usuarioService';
 
 
 const Preload = () => {
-    const { isAuth } = useAuth();
+    const { setIsAuth, setUsuarioData } = useAuth();
 
     useEffect(() => {
-        if (isAuth) {
-            return router.replace('/(tabs)/home');
-        }
+        const getSessao = async () => {
+            const result = await usuarioService.getSessao();
 
-        if (!isAuth) {
+            if (result) {
+                setIsAuth(true);
+                setUsuarioData({ id: result.user.id, token: result.access_token });
+                return router.replace('/(tabs)/home');
+            }
+
             return router.replace('/login');
         }
-    }, [isAuth]);
+
+        getSessao();
+    }, []);
 
 
     return (
