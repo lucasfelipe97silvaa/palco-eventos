@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { theme } from '../../theme';
 
 const schema = z.object({
     email: z.string({ message: 'Campo obrigatório' }),
@@ -29,7 +30,7 @@ const Login = () => {
     }
 
     const navigateToCadastro = () => {
-        router.navigate('/cadastro')
+        router.replace('/cadastro')
     }
 
     return (
@@ -87,7 +88,7 @@ const Login = () => {
             </View>
 
             <View>
-                <Text>Não tem uma conta? <Pressable onPress={navigateToCadastro}><Text>Cadastre-se</Text></Pressable></Text>
+                <Text>Não tem uma conta? <Pressable onPress={navigateToCadastro} ><Text style={{color: theme.colors.secondary}}>Cadastre-se</Text></Pressable></Text>
             </View>
 
         </View>
