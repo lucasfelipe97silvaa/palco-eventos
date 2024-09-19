@@ -1,38 +1,52 @@
 import React from "react";
-import { Text, View, Image, Button } from "react-native";
+import { Text, View, Image } from "react-native";
 import Logo from "../../assets/LogoPerfil.png";
 import { Link } from 'expo-router';
+import { styles } from "./styles";
+import { Button } from "../../components/Button";
 
+
+const handleEditProfile = () =>{
+
+console.log("Editar perfil");
+};
 
 export default function Perfil (){
     return (
-        <View className="align-itens center justify-center ">
+        <View >
             <View>
-                <Image source={Logo} className="w-20 h-20  rounded-full" alt="Rounded avatar" />
-                <Text className="items-center justify-center text-black">Severino Cardozo</Text>
+                <Image source={Logo} />
+                <Text style={styles.name}>Severino Cardozo</Text>
+            </View>
+            <View>
+                <Button style={styles.button} 
+                text="Editar perfil"
+                onPress={handleEditProfile}> 
+                </Button>
+            </View>
 
-            
-            </View>
             <View>
-                <Button class=" bg-D4E2E5 text-#358198 rounded-lg"
-                title="Editar perfil"/>
-                 <Button class="rounded-lg text-#358198"
-                 title="Favoritos"/>
+            <Button style={styles.button}
+                 text="Favoritos">
+
+            </Button>
             </View>
+
             <View>
-                <Button 
-                class="rounded-lg text-#358198"
-                title="Histórico de ingressos"/>
+                <Button style={styles.button}
+                 text="Histórico de ingressos">
+                 </Button>
             </View>
+
             <View>
-                <Button
-                class="rounded-lg text-#358198"
-                title="Sair da conta"
-                iconName="logout"
-                /><Link href="/home"/>
+                <Button style={styles.buttonLogout}
+                 text="Sair da conta">
+                {/* <Link href="/home"/> */}
+                </Button>
             </View>
            
             
         </View>
     )
 }
+

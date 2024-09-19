@@ -7,6 +7,7 @@ import { BoxProduct } from '../components/boxProduct'
 
 import { GetShows } from '../services/supabase/eventoService'
 import { IEvento } from '../types/databaseTypes'
+import React from 'react'
 
 
 export default function Home(){
@@ -16,7 +17,6 @@ useEffect(() => {
     async function fetchShows(){
         const data  = await GetShows();
         setShows(data);
-        console.log(shows); // Para debugar, remove ou substitui com console.log(data);  //console.log(data);  // Para debugar, remove ou substitui com console.log(shows);  //console.log(shows);  // Para debugar, remove ou substitui com console.log(shows);  //console.log(shows);  // Para debugar, remove ou substitui com console.log(shows);  //console
     }
     fetchShows();
 },[]);
