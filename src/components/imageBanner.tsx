@@ -4,8 +4,8 @@ import { Image, View,Text, FlatList, Dimensions, StatusBar } from "react-native"
 
 export  function ImageBanner(){
     return(
-        <View className="justify-center items-center mb-3 h-40">       
-           <Image source={require('../assets/image/semijoias.png')} className="h-48"/>                    
+        <View className="justify-center items-center mb-3 h-40 ">       
+           <Image source={require('../assets/image/semijoias.png')} className="h-48 rounded-sm"/>                    
         </View>
     )
 }

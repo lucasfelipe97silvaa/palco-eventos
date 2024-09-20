@@ -22,6 +22,3 @@ export function BoxProduct({title, cover}: BoxProductProps){
         </View>
     )
 }
-
-
-{/* <Image source={require('../assets/image/lolla.png')} className="w-32 h-32"/> */}

@@ -3,6 +3,14 @@ interface IIngresso {
     preco: number;
 }
 
+export enum Categorias{
+    SHOWS = 1,
+    STANDUP = 2,
+    TEATRO = 3,
+    BALADAS = 4,
+    FESTIVAIS = 5
+}
+
 export interface IEvento {
     id: string;
     categoria_id: number;
