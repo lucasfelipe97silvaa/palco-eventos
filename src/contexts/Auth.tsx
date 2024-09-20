@@ -76,13 +76,8 @@ const AuthContextProvider = ({ children }: IAuthContextProviderProps) => {
             const mensagemErro = registerResult === 'User already registered'
                 ? 'Usuário já existe'
                 : 'Tente novamente mais tarde';
-            notify('error', {
-                params: {
-                    title: 'Erro',
-                    description: mensagemErro,
-                },
-            });
-            return;
+
+            throw new Error(mensagemErro)
         }
 
         if (registerResult.user) {
@@ -94,13 +89,7 @@ const AuthContextProvider = ({ children }: IAuthContextProviderProps) => {
             });
 
             if (typeof usuarioResult === 'string') {
-                notify('error', {
-                    params: {
-                        title: 'Erro ao fazer cadastro',
-                        description: 'Tente novamente mais tarde',
-                    },
-                });
-                return;
+                throw new Error('Tente novamente mais tarde')
             }
 
             if (registerResult.session?.access_token) {

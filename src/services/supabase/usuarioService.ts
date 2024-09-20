@@ -43,7 +43,7 @@ const create = async(usuarioData: ICreateUsuario) => {
         cpf,
         nome,
         telefone
-    }).returns<ICreateUsuario>();
+    }).select().single();
 
     if(error){
         console.log('ERRO AO CRIAR USUÀRIO', error);

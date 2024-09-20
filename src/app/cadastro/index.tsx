@@ -9,12 +9,13 @@ import { useAuth } from '../../hooks/useAuth';
 import { notify } from 'react-native-notificated';
 import { theme } from '../../theme';
 import { router } from 'expo-router';
+import { utils } from '../../utils';
 
 const schema = z.object({
     nome: z.string({ message: 'Nome é obrigatório' }).min(3, 'Nome é obrigatório'),
     email: z.string({ message: 'Email é obrigatório' }).email('Email inválido'),
-    cpf: z.string({ message: 'CPF é obrigatório' }).min(11, { message: 'CPF inválido' }),
-    telefone: z.string({ message: 'Telefone é obrigatório' }),
+    cpf: z.string({ message: 'CPF é obrigatório' }).length(11, { message: 'CPF deve ter 11 dígitos' }),
+    telefone: z.string({ message: 'Telefone é obrigatório' }).min(10, { message: 'Telefone inválido' }),
     senha: z.string({ message: 'Senha é obrigatória' }).min(6, { message: 'Senha deve ter no mínimo 6 caracteres' }),
     confirmarSenha: z.string({ message: 'Confirme sua senha' }).min(6, { message: 'Confirmação de senha é obrigatória' }),
 }).refine(data => data.senha === data.confirmarSenha, {
@@ -23,6 +24,21 @@ const schema = z.object({
 });
 
 type TCadastroForm = z.infer<typeof schema>;
+
+const formatCpf = (cpf: string): string => {
+    const cleanCpf = cpf.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+    if (cleanCpf.length !== 11) return cleanCpf; // Retorna sem formatação se não tiver 11 dígitos
+    return cleanCpf.replace(/(\d{3})(\d)/, '$1.$2')
+                   .replace(/(\d{3})(\d)/, '$1/$2')
+                   .replace(/(\d{2})$/, '-$1'); // Formata como 000.000.000-00
+};
+
+const formatTelefone = (telefone: string): string => {
+    const cleanTelefone = telefone.replace(/\D/g, ''); // Remove caracteres não numéricos
+    if (cleanTelefone.length < 10) return cleanTelefone; // Retorna sem formatação se menos de 10 dígitos
+    return cleanTelefone.replace(/(\d{2})(\d)/, '($1) $2')
+                        .replace(/(\d{4})(\d)/, '$1-$2'); // Formata como (00) 0000-0000
+};
 
 const Cadastro = () => {
     const { cadastrar } = useAuth();
@@ -34,11 +50,14 @@ const Cadastro = () => {
     const onSubmit = async (data: TCadastroForm) => {
         const { cpf, email, nome, senha, telefone } = data;
 
+        const formattedCpf = formatCpf(cpf);
+        const formattedTelefone = formatTelefone(telefone);
+
         try {
-            await cadastrar({ cpf, email, nome, senha, telefone });
+            await cadastrar({ cpf: formattedCpf, email, nome, senha, telefone: formattedTelefone });
             router.replace('/(tabs)/home');
-        } catch (error) {
-            notify('error', { params: { title: 'Erro', description: 'Falha ao cadastrar. Tente novamente.' } });
+        } catch (error: any) {
+            notify('error', { params: { title: 'Erro', description: error.message } });
         }
     };
 
@@ -60,7 +79,13 @@ const Cadastro = () => {
                     render={({ field: { value, onChange } }) => (
                         <Input
                             placeholder='Nome'
-                            onChangeText={onChange}
+                            onChangeText={(text) => onChange(
+                                text
+                                    .toLowerCase()
+                                    .split(' ')
+                                    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+                                    .join(' ')
+                            )}
                             value={value}
                             error={errors.nome?.message}
                         />
@@ -73,7 +98,7 @@ const Cadastro = () => {
                     render={({ field: { value, onChange } }) => (
                         <Input
                             placeholder='CPF'
-                            onChangeText={onChange}
+                            onChangeText={(text) => onChange(utils.formatCPF(text))}
                             value={value}
                             error={errors.cpf?.message}
                         />
@@ -86,7 +111,7 @@ const Cadastro = () => {
                     render={({ field: { value, onChange } }) => (
                         <Input
                             placeholder='Telefone'
-                            onChangeText={onChange}
+                            onChangeText={(text) => onChange(utils.formatTelefone(text))}
                             value={value}
                             error={errors.telefone?.message}
                         />
